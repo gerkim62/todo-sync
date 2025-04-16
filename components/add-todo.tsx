@@ -81,6 +81,7 @@ const AddTodo = () => {
         className="flex w-full items-center space-x-2 mt-1"
       >
         <Input
+          required
           name="todo"
           placeholder="Add new todo..."
           className={`flex-grow ${
