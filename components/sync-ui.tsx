@@ -23,6 +23,7 @@ const SyncUI = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
+    setStatus("idle");
     addEventListener("online", () => {
       handleSync();
     });
