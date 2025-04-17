@@ -6,8 +6,8 @@ import { Input } from "./ui/input";
 import { FormEvent, useState } from "react";
 import { addTodo } from "@/actions/todo";
 import { dexieDb } from "@/lib/dexie";
-
 import isNetworkError from "is-network-error";
+import useOnlineStatus from "@/hooks/use-online-status";
 
 type Status =
   | "idle"
@@ -17,6 +17,7 @@ type Status =
   | "network-error";
 
 const AddTodo = () => {
+  const { checkNow: checkConnection } = useOnlineStatus();
   const [status, setStatus] = useState<Status>("idle");
 
   const handleAddTodo = async (e: FormEvent<HTMLFormElement>) => {
@@ -30,6 +31,7 @@ const AddTodo = () => {
       try {
         await addTodo({ text: todoText });
       } catch (error) {
+        checkConnection(); // Check connection status
         // Save to local IndexedDB as fallback
         dexieDb.todos.add({
           text: todoText,
